@@ -1,0 +1,12 @@
+{
+  "name": "dex-ui",
+  "version": "0.1.0",
+  "description": "CEX-style UI for DEX tokens using Dexscreener.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
