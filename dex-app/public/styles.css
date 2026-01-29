@@ -213,6 +213,18 @@ select {
   font-size: 0.9rem;
 }
 
+.metric-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.metric-gap {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
 .metrics span {
   color: var(--muted);
   font-size: 0.75rem;
@@ -248,6 +260,17 @@ select {
   gap: 1.5rem;
 }
 
+.wallet-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  background: rgba(26, 164, 255, 0.1);
+  border: 1px solid rgba(26, 164, 255, 0.2);
+}
+
 .wallet-card {
   background: var(--panel);
   border: 1px solid var(--border);
@@ -266,6 +289,29 @@ select {
   background: var(--panel-2);
   border-radius: 18px;
   padding: 1.5rem;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.profile-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.profile-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 .modal {

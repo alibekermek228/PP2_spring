@@ -4,8 +4,10 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 const publicDir = path.join(__dirname, 'public');
+const watchlist = new Set();
 
 app.use(express.static(publicDir));
+app.use(express.json());
 
 app.get('/api/search', async (req, res) => {
   const query = (req.query.q || '').trim();
@@ -28,6 +30,27 @@ app.get('/api/search', async (req, res) => {
 
 app.get('/health', (_req, res) => {
   res.json({ ok: true });
+});
+
+app.post('/api/watchlist', (req, res) => {
+  const { action, pairAddress } = req.body || {};
+  if (!pairAddress) {
+    return res.status(400).json({ message: 'Pair address required.' });
+  }
+  if (action === 'remove') {
+    watchlist.delete(pairAddress);
+    return res.json({ message: 'Removed from watchlist.' });
+  }
+  watchlist.add(pairAddress);
+  return res.json({ message: 'Added to watchlist.' });
+});
+
+app.post('/api/trade', (req, res) => {
+  const { pairAddress, symbol } = req.body || {};
+  if (!pairAddress) {
+    return res.status(400).json({ message: 'Pair address required.' });
+  }
+  return res.json({ message: `Trade request created for ${symbol || 'token'}.` });
 });
 
 app.listen(port, () => {
