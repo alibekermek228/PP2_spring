@@ -35,6 +35,7 @@ function App() {
   const [pairs, setPairs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [dataNotice, setDataNotice] = useState('');
   const [walletOpen, setWalletOpen] = useState(false);
   const [minCap, setMinCap] = useState(1_000_000_000);
   const [chainFilter, setChainFilter] = useState('all');
@@ -58,11 +59,20 @@ function App() {
   const fetchPairs = async (searchQuery) => {
     setLoading(true);
     setError('');
+    setDataNotice('');
     try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
+      const proxyUrl = `/api/search?q=${encodeURIComponent(searchQuery)}`;
+      const directUrl = `https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(searchQuery)}`;
+
+      let response = await fetch(proxyUrl);
       if (!response.ok) {
-        throw new Error('Не удалось получить данные Dexscreener.');
+        response = await fetch(directUrl);
+        if (!response.ok) {
+          throw new Error('Не удалось получить данные Dexscreener.');
+        }
+        setDataNotice('Данные загружены напрямую из Dexscreener (прокси недоступен).');
       }
+
       const data = await response.json();
       setPairs(Array.isArray(data.pairs) ? data.pairs : []);
     } catch (err) {
@@ -163,6 +173,7 @@ function App() {
         </div>
 
         {loading && <div className="state">Загрузка данных...</div>}
+        {dataNotice && <div className="state warning">{dataNotice}</div>}
         {error && <div className="state error">{error}</div>}
 
         <div className="grid" id="market">
